@@ -4,7 +4,7 @@ export interface Airport {
   name: string;
   shortName: string;
   municipalityName: string;
-  location: {
+  location?: {
     lat: number;
     lon: number;
   };
@@ -37,15 +37,4 @@ export interface Flight {
     iata: string;
     icao: string;
   };
-}
-
-export interface FlightSearchParams {
-  flightNumber?: string;
-  airline?: string;
-}
-
-export interface AirportSearchParams {
-  icao?: string;
-  iata?: string;
-  name?: string;
 }

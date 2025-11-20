@@ -1,12 +1,11 @@
 import axios from "axios";
 
 const API_BASE_URL = "https://aerodatabox.p.rapidapi.com";
-const API_KEY = process.env.RAPID_KEY;
 
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
-    "X-RapidAPI-Key": API_KEY,
+    "X-RapidAPI-Key": "OvEezA3997msh66qZgNJ66YsAWs0p13mlOMjsnO4L2P0BG7sM4",
     "X-RapidAPI-Host": "aerodatabox.p.rapidapi.com",
   },
 });

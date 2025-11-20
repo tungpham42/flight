@@ -1,6 +1,10 @@
 import React from "react";
 import { Card, List, Tag, Space, Typography } from "antd";
-import { EnvironmentOutlined, FlagOutlined } from "@ant-design/icons";
+import {
+  EnvironmentOutlined,
+  FlagOutlined,
+  QuestionOutlined,
+} from "@ant-design/icons";
 import { Airport } from "../types";
 
 const { Text, Title } = Typography;
@@ -10,6 +14,23 @@ interface AirportListProps {
 }
 
 const AirportList: React.FC<AirportListProps> = ({ airports }) => {
+  const formatCoordinates = (airport: Airport): string => {
+    if (!airport.location) {
+      return "Không có dữ liệu";
+    }
+    return `${airport.location.lat?.toFixed(4) || "N/A"}, ${
+      airport.location.lon?.toFixed(4) || "N/A"
+    }`;
+  };
+
+  const getAirportName = (airport: Airport): string => {
+    return airport.name || airport.shortName || "Tên không xác định";
+  };
+
+  const getMunicipalityName = (airport: Airport): string => {
+    return airport.municipalityName || "Không xác định";
+  };
+
   return (
     <Card title={`Kết quả tìm kiếm (${airports.length} sân bay)`}>
       <List
@@ -27,38 +48,55 @@ const AirportList: React.FC<AirportListProps> = ({ airports }) => {
               >
                 <Space direction="vertical">
                   <Title level={4} style={{ margin: 0 }}>
-                    {airport.name}
+                    {getAirportName(airport)}
                   </Title>
-                  <Text type="secondary">{airport.shortName}</Text>
+                  <Text type="secondary">
+                    {airport.shortName || "Không có tên ngắn"}
+                  </Text>
                 </Space>
 
                 <Space>
-                  <Tag icon={<EnvironmentOutlined />} color="blue">
-                    IATA: {airport.iata}
-                  </Tag>
-                  <Tag icon={<FlagOutlined />} color="green">
-                    ICAO: {airport.icao}
-                  </Tag>
+                  {airport.iata && (
+                    <Tag icon={<EnvironmentOutlined />} color="blue">
+                      IATA: {airport.iata}
+                    </Tag>
+                  )}
+                  {airport.icao && (
+                    <Tag icon={<FlagOutlined />} color="green">
+                      ICAO: {airport.icao}
+                    </Tag>
+                  )}
+                  {!airport.iata && !airport.icao && (
+                    <Tag icon={<QuestionOutlined />} color="orange">
+                      Không có mã
+                    </Tag>
+                  )}
                 </Space>
               </div>
 
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  flexWrap: "wrap",
+                  gap: "16px",
+                }}
+              >
                 <Space>
                   <Text strong>Thành phố:</Text>
-                  <Text>{airport.municipalityName}</Text>
+                  <Text>{getMunicipalityName(airport)}</Text>
                 </Space>
 
-                <Space>
-                  <Text strong>Quốc gia:</Text>
-                  <Text>{airport.countryCode}</Text>
-                </Space>
+                {airport.countryCode && (
+                  <Space>
+                    <Text strong>Quốc gia:</Text>
+                    <Text>{airport.countryCode}</Text>
+                  </Space>
+                )}
 
                 <Space>
                   <Text strong>Tọa độ:</Text>
-                  <Text>
-                    {airport.location.lat.toFixed(4)},{" "}
-                    {airport.location.lon.toFixed(4)}
-                  </Text>
+                  <Text>{formatCoordinates(airport)}</Text>
                 </Space>
               </div>
             </Space>
