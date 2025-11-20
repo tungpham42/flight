@@ -1,10 +1,6 @@
 import React from "react";
 import { Card, List, Tag, Space, Typography } from "antd";
-import {
-  LineOutlined,
-  ClockCircleOutlined,
-  EnvironmentOutlined,
-} from "@ant-design/icons";
+import { LineOutlined, ClockCircleOutlined } from "@ant-design/icons";
 import { Flight } from "../types";
 import {
   formatTime,
